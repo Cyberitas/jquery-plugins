@@ -147,7 +147,14 @@
 						rule += p1 + value + p2 + value; 
 					}
 					rule += '100% { -webkit-transform:rotate(100deg); }\n}';
-					document.styleSheets[0].insertRule(rule);
+					var sheet = (function() {
+						var style = document.createElement("style");
+						style.setAttribute("media", "screen")
+						style.appendChild(document.createTextNode(""));
+						document.head.appendChild(style);
+						return style.sheet;
+					})();
+					sheet.insertRule(rule, 0);
 					animations[steps] = name;
 				}
 				el.css('-webkit-animation', animations[steps] + ' ' + duration +'s linear infinite');
